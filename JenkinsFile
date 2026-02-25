@@ -1,29 +1,29 @@
-// pipeline {
-//     // ใส่ชื่อ Agent ตัวเอง
-//     agent { label 'kanchala-agent' }
-//     stages {
-//         stage('My simple stage') {
-//             steps {
-//                 sh "/Users/miwdoppio/jenkins_agent_space/workspace/kanchala_pipline_jenkins/send_msg.sh"
-//             }
-//         }
-//     }
-// }
-
 pipeline {
+    // ใส่ชื่อ Agent ตัวเอง
     agent { label 'kanchala-agent' }
     stages {
         stage('My simple stage') {
             steps {
-                sh "robot ep3.robot"
-                robot outputPath: './'
-                script {
-                    String failed_count = tm('${ROBOT_FAILED}')
-                    String passed_count = tm('${ROBOT_PASSED}')
-                    echo "Passed Tests: ${passed_count}"
-                    echo "Failed Tests: ${failed_count}"
-                }
+                sh "/Users/miwdoppio/jenkins_agent_space/workspace/kanchala_pipline_jenkins/send_msg.sh"
             }
         }
     }
 }
+
+// pipeline {
+//     agent { label 'kanchala-agent' }
+//     stages {
+//         stage('My simple stage') {
+//             steps {
+//                 sh "robot ep3.robot"
+//                 robot outputPath: './'
+//                 script {
+//                     String failed_count = tm('${ROBOT_FAILED}')
+//                     String passed_count = tm('${ROBOT_PASSED}')
+//                     echo "Passed Tests: ${passed_count}"
+//                     echo "Failed Tests: ${failed_count}"
+//                 }
+//             }
+//         }
+//     }
+// }
