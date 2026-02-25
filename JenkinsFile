@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('My simple stage') {
             steps {
-                sh "/Users/miwdoppio/jenkins_agent_space/workspace/kanchala_pipline_jenkins@tmp/durable-f8743b84/script.sh.copy ThisIsMyJenkinsFile-Oz"
+                sh "/Users/miwdoppio/jenkins_agent_space/workspace/kanchala_pipline_jenkins/send_msg.sh"
             }
         }
     }
