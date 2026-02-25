@@ -1,9 +1,10 @@
 pipeline {
-    agent { label 'simple' }
+    // ใส่ชื่อ Agent ตัวเอง
+    agent { label 'kanchala-agent' }
     stages {
         stage('My simple stage') {
             steps {
-                sh "/Users/doppio/training/send_msg.sh ThisIsMyJenkinsFile-Oz"
+                sh "/Users/miwdoppio/training/send_msg.sh ThisIsMyJenkinsFile-Oz"
             }
         }
     }
