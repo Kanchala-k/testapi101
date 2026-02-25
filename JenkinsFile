@@ -1,0 +1,12 @@
+JenkinsFile
+
+pipeline {
+    // agent { label 'oz-agent' }
+    // stages {
+    //     stage('Just my test stage') {
+    //         steps {
+    //             sh "/Users/doppio/training/send_msg.sh ThisIsMyJenkinsFile-Oz"
+    //         }
+    //     }
+    // }
+}
