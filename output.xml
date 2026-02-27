@@ -1,1323 +1,207 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 6.1 (Python 3.14.2 on darwin)" generated="20260220 10:15:36.984" rpa="false" schemaversion="4">
-<suite id="s1" name="Assignment" source="/Users/miwdoppio/Documents/GitHub/testapi101/assignment.robot">
-<test id="s1-t1" name="TC-003 Verify that get asset API always require valid token (Negative: ใส่ expire token จะเเสดง error)" line="13">
+<robot generator="Robot 6.1 (Python 3.14.2 on darwin)" generated="20260227 16:08:07.134" rpa="false" schemaversion="4">
+<suite id="s1" name="Ep3" source="/Users/miwdoppio/Documents/GitHub/testapi101/ep3.robot">
+<test id="s1-t1" name="TC-001A [Login API] Verify when input wrong username or password, API should return error" line="7">
 <kw name="Create Session" library="RequestsLibrary">
-<arg>assetSession</arg>
+<arg>loginSession</arg>
 <arg>http://localhost:8082</arg>
 <doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20260220 10:15:37.075" level="INFO">Creating Session using : alias=assetSession, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<status status="PASS" starttime="20260220 10:15:37.075" endtime="20260220 10:15:37.076"/>
+<msg timestamp="20260227 16:08:08.461" level="INFO">Creating Session using : alias=loginSession, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20260227 16:08:08.461" endtime="20260227 16:08:08.461"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${request_body}</var>
+<arg>username=doppio222</arg>
+<arg>password=12345</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20260227 16:08:08.462" level="INFO">${request_body} = {'username': 'doppio222', 'password': '12345'}</msg>
+<status status="PASS" starttime="20260227 16:08:08.461" endtime="20260227 16:08:08.462"/>
+</kw>
+<kw name="POST On Session" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>loginSession</arg>
+<arg>/login</arg>
+<arg>json=${request_body}</arg>
+<arg>expected_status=401</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20260227 16:08:08.645" level="INFO">POST Request : url=http://localhost:8082/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '46', 'Content-Type': 'application/json'} 
+ body=b'{"username": "doppio222", "password": "12345"}' 
+ </msg>
+<msg timestamp="20260227 16:08:08.645" level="INFO">POST Response : url=http://localhost:8082/login 
+ status=401, reason= 
+ headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 27 Feb 2026 09:08:08 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
+ body={"status":"error","message":"invalid username or password"} 
+ </msg>
+<msg timestamp="20260227 16:08:08.645" level="INFO">${resp} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20260227 16:08:08.462" endtime="20260227 16:08:08.645"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${resp.json()['status']}</arg>
+<arg>error</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20260227 16:08:08.645" endtime="20260227 16:08:08.645"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${resp.json()['message']}</arg>
+<arg>invalid username or password</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20260227 16:08:08.645" endtime="20260227 16:08:08.646"/>
+</kw>
+<status status="PASS" starttime="20260227 16:08:08.460" endtime="20260227 16:08:08.646"/>
+</test>
+<test id="s1-t2" name="TC-001B [Login API] Verify when input correct username or password, API should return success" line="18">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>loginSession</arg>
+<arg>http://localhost:8082</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20260227 16:08:08.646" level="INFO">Creating Session using : alias=loginSession, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20260227 16:08:08.646" endtime="20260227 16:08:08.646"/>
 </kw>
 <kw name="Create Dictionary" library="BuiltIn">
 <var>${request_body}</var>
 <arg>username=doppio</arg>
 <arg>password=weBuildBestQa</arg>
 <doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.076" level="INFO">${request_body} = {'username': 'doppio', 'password': 'weBuildBestQa'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.076" endtime="20260220 10:15:37.076"/>
+<msg timestamp="20260227 16:08:08.646" level="INFO">${request_body} = {'username': 'doppio', 'password': 'weBuildBestQa'}</msg>
+<status status="PASS" starttime="20260227 16:08:08.646" endtime="20260227 16:08:08.646"/>
 </kw>
 <kw name="POST On Session" library="RequestsLibrary">
-<var>${resp_old}</var>
+<var>${resp}</var>
+<arg>loginSession</arg>
+<arg>/login</arg>
+<arg>json=${request_body}</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20260227 16:08:08.650" level="INFO">POST Request : url=http://localhost:8082/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '51', 'Content-Type': 'application/json'} 
+ body=b'{"username": "doppio", "password": "weBuildBestQa"}' 
+ </msg>
+<msg timestamp="20260227 16:08:08.650" level="INFO">POST Response : url=http://localhost:8082/login 
+ status=200, reason= 
+ headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 27 Feb 2026 09:08:08 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
+ body={"status":"success","message":"W0qp_yfBiFLOU3P_ChyFFr-oIhgvnAOx"} 
+ </msg>
+<msg timestamp="20260227 16:08:08.650" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20260227 16:08:08.646" endtime="20260227 16:08:08.650"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${resp.json()['status']}</arg>
+<arg>success</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20260227 16:08:08.650" endtime="20260227 16:08:08.650"/>
+</kw>
+<kw name="Should Not Be Empty" library="BuiltIn">
+<arg>${resp.json()['message']}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<msg timestamp="20260227 16:08:08.651" level="INFO">Length is 32</msg>
+<status status="PASS" starttime="20260227 16:08:08.650" endtime="20260227 16:08:08.651"/>
+</kw>
+<status status="PASS" starttime="20260227 16:08:08.646" endtime="20260227 16:08:08.651"/>
+</test>
+<test id="s1-t3" name="TC-002 [Get Asset API] Verify That Can Get Asset List From Get API correctly" line="29">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>assetSession</arg>
+<arg>http://localhost:8082</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20260227 16:08:08.651" level="INFO">Creating Session using : alias=assetSession, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20260227 16:08:08.651" endtime="20260227 16:08:08.651"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${request_body}</var>
+<arg>username=doppio</arg>
+<arg>password=weBuildBestQa</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20260227 16:08:08.651" level="INFO">${request_body} = {'username': 'doppio', 'password': 'weBuildBestQa'}</msg>
+<status status="PASS" starttime="20260227 16:08:08.651" endtime="20260227 16:08:08.651"/>
+</kw>
+<kw name="POST On Session" library="RequestsLibrary">
+<var>${resp}</var>
 <arg>assetSession</arg>
 <arg>/login</arg>
 <arg>json=${request_body}</arg>
 <arg>expected_status=200</arg>
 <doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.155" level="INFO">POST Request : url=http://localhost:8082/login 
+<msg timestamp="20260227 16:08:08.654" level="INFO">POST Request : url=http://localhost:8082/login 
  path_url=/login 
  headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '51', 'Content-Type': 'application/json'} 
  body=b'{"username": "doppio", "password": "weBuildBestQa"}' 
  </msg>
-<msg timestamp="20260220 10:15:37.155" level="INFO">POST Response : url=http://localhost:8082/login 
+<msg timestamp="20260227 16:08:08.654" level="INFO">POST Response : url=http://localhost:8082/login 
  status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":"CYglKyaaCN8GL07J3qdcxqrUrtVr6HLn"} 
+ headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 27 Feb 2026 09:08:08 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
+ body={"status":"success","message":"PfS1hq1a7rkH7PjXrqc_fuYtFUF5TKru"} 
  </msg>
-<msg timestamp="20260220 10:15:37.155" level="INFO">${resp_old} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.076" endtime="20260220 10:15:37.155"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${token_old}</var>
-<arg>${resp_old.json()['message']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.157" level="INFO">${token_old} = CYglKyaaCN8GL07J3qdcxqrUrtVr6HLn</msg>
-<status status="PASS" starttime="20260220 10:15:37.155" endtime="20260220 10:15:37.157"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_header_old}</var>
-<arg>token=${token_old}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.158" level="INFO">${request_header_old} = {'token': 'CYglKyaaCN8GL07J3qdcxqrUrtVr6HLn'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.157" endtime="20260220 10:15:37.159"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${resp_lasted}</var>
-<arg>assetSession</arg>
-<arg>/login</arg>
-<arg>json=${request_body}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.174" level="INFO">POST Request : url=http://localhost:8082/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '51', 'Content-Type': 'application/json'} 
- body=b'{"username": "doppio", "password": "weBuildBestQa"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.174" level="INFO">POST Response : url=http://localhost:8082/login 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":"VLmdGfz-D7MEulvctUP_lSSEnmxGqjm5"} 
- </msg>
-<msg timestamp="20260220 10:15:37.174" level="INFO">${resp_lasted} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.159" endtime="20260220 10:15:37.174"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${token_lasted}</var>
-<arg>${resp_lasted.json()['message']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.175" level="INFO">${token_lasted} = VLmdGfz-D7MEulvctUP_lSSEnmxGqjm5</msg>
-<status status="PASS" starttime="20260220 10:15:37.174" endtime="20260220 10:15:37.175"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_header_lasted}</var>
-<arg>token=${token_lasted}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.175" level="INFO">${request_header_lasted} = {'token': 'VLmdGfz-D7MEulvctUP_lSSEnmxGqjm5'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.175" endtime="20260220 10:15:37.175"/>
-</kw>
-<kw name="GET On Session" library="RequestsLibrary">
-<var>${get_resp}</var>
-<arg>assetSession</arg>
-<arg>/assets</arg>
-<arg>headers=${request_header_old}</arg>
-<arg>expected_status=401</arg>
-<doc>Sends a GET request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.185" level="INFO">GET Request : url=http://localhost:8082/assets 
- path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'CYglKyaaCN8GL07J3qdcxqrUrtVr6HLn'} 
- body=None 
- </msg>
-<msg timestamp="20260220 10:15:37.185" level="INFO">GET Response : url=http://localhost:8082/assets 
- status=401, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"error","message":"you do not have access to this resource"} 
- </msg>
-<msg timestamp="20260220 10:15:37.185" level="INFO">${get_resp} = &lt;Response [401]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.175" endtime="20260220 10:15:37.185"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${get_resp.json()['status']}</arg>
-<arg>error</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.185" endtime="20260220 10:15:37.185"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${get_resp.json()['message']}</arg>
-<arg>you do not have access to this resource</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.185" endtime="20260220 10:15:37.186"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.075" endtime="20260220 10:15:37.186"/>
-</test>
-<test id="s1-t2" name="TC-004 Verify that create asset API can work correctly (Success: สร้างครั้งละ 1 asset)" line="36">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>createAssets</arg>
-<arg>http://localhost:8082</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20260220 10:15:37.186" level="INFO">Creating Session using : alias=createAssets, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<status status="PASS" starttime="20260220 10:15:37.186" endtime="20260220 10:15:37.186"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_login}</var>
-<arg>username=doppio</arg>
-<arg>password=weBuildBestQa</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.187" level="INFO">${request_body_login} = {'username': 'doppio', 'password': 'weBuildBestQa'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.187" endtime="20260220 10:15:37.187"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${resp}</var>
-<arg>createAssets</arg>
-<arg>/login</arg>
-<arg>json=${request_body_login}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.193" level="INFO">POST Request : url=http://localhost:8082/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '51', 'Content-Type': 'application/json'} 
- body=b'{"username": "doppio", "password": "weBuildBestQa"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.193" level="INFO">POST Response : url=http://localhost:8082/login 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":"a3GUkIB_IgMT5rrwLlaMfpFBaffu4J9U"} 
- </msg>
-<msg timestamp="20260220 10:15:37.193" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.187" endtime="20260220 10:15:37.193"/>
+<msg timestamp="20260227 16:08:08.654" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20260227 16:08:08.651" endtime="20260227 16:08:08.654"/>
 </kw>
 <kw name="Set Variable" library="BuiltIn">
 <var>${token}</var>
 <arg>${resp.json()['message']}</arg>
 <doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.193" level="INFO">${token} = a3GUkIB_IgMT5rrwLlaMfpFBaffu4J9U</msg>
-<status status="PASS" starttime="20260220 10:15:37.193" endtime="20260220 10:15:37.193"/>
+<msg timestamp="20260227 16:08:08.655" level="INFO">${token} = PfS1hq1a7rkH7PjXrqc_fuYtFUF5TKru</msg>
+<status status="PASS" starttime="20260227 16:08:08.654" endtime="20260227 16:08:08.655"/>
 </kw>
 <kw name="Create Dictionary" library="BuiltIn">
 <var>${request_header}</var>
 <arg>token=${token}</arg>
 <doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.194" level="INFO">${request_header} = {'token': 'a3GUkIB_IgMT5rrwLlaMfpFBaffu4J9U'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.194" endtime="20260220 10:15:37.194"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>${request_header}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.194" endtime="20260220 10:15:37.194"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_create}</var>
-<arg>assetId=a008</arg>
-<arg>assetName=Macpro m6</arg>
-<arg>assetType=1</arg>
-<arg>inUse=true</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.194" level="INFO">${request_body_create} = {'assetId': 'a008', 'assetName': 'Macpro m6', 'assetType': '1', 'inUse': 'true'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.194" endtime="20260220 10:15:37.194"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${createAss_resp}</var>
-<arg>createAssets</arg>
-<arg>/assets</arg>
-<arg>json=${request_body_create}</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.198" level="INFO">POST Request : url=http://localhost:8082/assets 
- path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'a3GUkIB_IgMT5rrwLlaMfpFBaffu4J9U', 'Content-Length': '80', 'Content-Type': 'application/json'} 
- body=b'{"assetId": "a008", "assetName": "Macpro m6", "assetType": "1", "inUse": "true"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.198" level="INFO">POST Response : url=http://localhost:8082/assets 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":""} 
- </msg>
-<msg timestamp="20260220 10:15:37.198" level="INFO">${createAss_resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.194" endtime="20260220 10:15:37.198"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${createAss_resp.json()['status']}</arg>
-<arg>success</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.198" endtime="20260220 10:15:37.199"/>
-</kw>
-<kw name="Should Be Empty" library="BuiltIn">
-<arg>${createAss_resp.json()['message']}</arg>
-<doc>Verifies that the given item is empty.</doc>
-<msg timestamp="20260220 10:15:37.199" level="INFO">Length is 0</msg>
-<status status="PASS" starttime="20260220 10:15:37.199" endtime="20260220 10:15:37.199"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.186" endtime="20260220 10:15:37.200"/>
-</test>
-<test id="s1-t3" name="TC-005 Verify that cannot create asset with duplicated ID (Negative: ใส่ assset ตัวซ้ำจะเเสดง error)" line="60">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>createAssets</arg>
-<arg>http://localhost:8082</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20260220 10:15:37.200" level="INFO">Creating Session using : alias=createAssets, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<status status="PASS" starttime="20260220 10:15:37.200" endtime="20260220 10:15:37.200"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_login}</var>
-<arg>username=doppio</arg>
-<arg>password=weBuildBestQa</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.200" level="INFO">${request_body_login} = {'username': 'doppio', 'password': 'weBuildBestQa'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.200" endtime="20260220 10:15:37.200"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${resp}</var>
-<arg>createAssets</arg>
-<arg>/login</arg>
-<arg>json=${request_body_login}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.209" level="INFO">POST Request : url=http://localhost:8082/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '51', 'Content-Type': 'application/json'} 
- body=b'{"username": "doppio", "password": "weBuildBestQa"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.209" level="INFO">POST Response : url=http://localhost:8082/login 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":"yRymBWyLkJnNg4D6rVfgRZloczcEPiHk"} 
- </msg>
-<msg timestamp="20260220 10:15:37.209" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.200" endtime="20260220 10:15:37.209"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${token}</var>
-<arg>${resp.json()['message']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.210" level="INFO">${token} = yRymBWyLkJnNg4D6rVfgRZloczcEPiHk</msg>
-<status status="PASS" starttime="20260220 10:15:37.210" endtime="20260220 10:15:37.210"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_header}</var>
-<arg>token=${token}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.210" level="INFO">${request_header} = {'token': 'yRymBWyLkJnNg4D6rVfgRZloczcEPiHk'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.210" endtime="20260220 10:15:37.210"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>${request_header}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.210" endtime="20260220 10:15:37.211"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_create}</var>
-<arg>assetId=a006</arg>
-<arg>assetName=Macpro m987</arg>
-<arg>assetType=1</arg>
-<arg>inUse=true</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.211" level="INFO">${request_body_create} = {'assetId': 'a006', 'assetName': 'Macpro m987', 'assetType': '1', 'inUse': 'true'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.211" endtime="20260220 10:15:37.211"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${createAss_resp}</var>
-<arg>createAssets</arg>
-<arg>/assets</arg>
-<arg>json=${request_body_create}</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.215" level="INFO">POST Request : url=http://localhost:8082/assets 
- path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'yRymBWyLkJnNg4D6rVfgRZloczcEPiHk', 'Content-Length': '82', 'Content-Type': 'application/json'} 
- body=b'{"assetId": "a006", "assetName": "Macpro m987", "assetType": "1", "inUse": "true"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.215" level="INFO">POST Response : url=http://localhost:8082/assets 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"failed","message":"id : a006 is already exists , please try with another id"} 
- </msg>
-<msg timestamp="20260220 10:15:37.215" level="INFO">${createAss_resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.211" endtime="20260220 10:15:37.215"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${createAss_resp.json()['status']}</arg>
-<arg>failed</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.215" endtime="20260220 10:15:37.215"/>
-</kw>
-<kw name="Should Contain" library="BuiltIn">
-<arg>${createAss_resp.json()['message']}</arg>
-<arg>is already exists , please try with another id</arg>
-<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
-<status status="PASS" starttime="20260220 10:15:37.215" endtime="20260220 10:15:37.216"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.200" endtime="20260220 10:15:37.216"/>
-</test>
-<test id="s1-t4" name="TC-006 Verify that modify asset API can work correctly (Success: เเก้ไข asset info ได้)" line="81">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>modifyAssets</arg>
-<arg>http://localhost:8082</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20260220 10:15:37.216" level="INFO">Creating Session using : alias=modifyAssets, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<status status="PASS" starttime="20260220 10:15:37.216" endtime="20260220 10:15:37.216"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_login}</var>
-<arg>username=doppio</arg>
-<arg>password=weBuildBestQa</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.216" level="INFO">${request_body_login} = {'username': 'doppio', 'password': 'weBuildBestQa'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.216" endtime="20260220 10:15:37.216"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${resp}</var>
-<arg>modifyAssets</arg>
-<arg>/login</arg>
-<arg>json=${request_body_login}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.219" level="INFO">POST Request : url=http://localhost:8082/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '51', 'Content-Type': 'application/json'} 
- body=b'{"username": "doppio", "password": "weBuildBestQa"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.220" level="INFO">POST Response : url=http://localhost:8082/login 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":"5M0CNiK3ainMwcu4RUcWFWpxhQPIVTkD"} 
- </msg>
-<msg timestamp="20260220 10:15:37.220" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.217" endtime="20260220 10:15:37.220"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${token}</var>
-<arg>${resp.json()['message']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.220" level="INFO">${token} = 5M0CNiK3ainMwcu4RUcWFWpxhQPIVTkD</msg>
-<status status="PASS" starttime="20260220 10:15:37.220" endtime="20260220 10:15:37.220"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_header}</var>
-<arg>token=${token}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.220" level="INFO">${request_header} = {'token': '5M0CNiK3ainMwcu4RUcWFWpxhQPIVTkD'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.220" endtime="20260220 10:15:37.220"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>${request_header}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.220" endtime="20260220 10:15:37.220"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_modify}</var>
-<arg>assetId=a001</arg>
-<arg>assetName=Macpro test</arg>
-<arg>assetType=1</arg>
-<arg>inUse=true</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.220" level="INFO">${request_body_modify} = {'assetId': 'a001', 'assetName': 'Macpro test', 'assetType': '1', 'inUse': 'true'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.220" endtime="20260220 10:15:37.220"/>
-</kw>
-<kw name="PUT On Session" library="RequestsLibrary">
-<var>${modifyAss_resp}</var>
-<arg>modifyAssets</arg>
-<arg>/assets</arg>
-<arg>json=${request_body_modify}</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a PUT request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.223" level="INFO">PUT Request : url=http://localhost:8082/assets 
- path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': '5M0CNiK3ainMwcu4RUcWFWpxhQPIVTkD', 'Content-Length': '82', 'Content-Type': 'application/json'} 
- body=b'{"assetId": "a001", "assetName": "Macpro test", "assetType": "1", "inUse": "true"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.223" level="INFO">PUT Response : url=http://localhost:8082/assets 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":"remark: asset id will not be changed in any cases"} 
- </msg>
-<msg timestamp="20260220 10:15:37.223" level="INFO">${modifyAss_resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.220" endtime="20260220 10:15:37.223"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${modifyAss_resp.json()['status']}</arg>
-<arg>success</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.223" endtime="20260220 10:15:37.224"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${modifyAss_resp.json()['message']}</arg>
-<arg>remark: asset id will not be changed in any cases</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.224" endtime="20260220 10:15:37.224"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.216" endtime="20260220 10:15:37.224"/>
-</test>
-<test id="s1-t5" name="TC-007 Verify that delete asset API can work correctly (Success: ลบ asset info ได้)" line="100">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>deleAssets</arg>
-<arg>http://localhost:8082</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20260220 10:15:37.225" level="INFO">Creating Session using : alias=deleAssets, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<status status="PASS" starttime="20260220 10:15:37.225" endtime="20260220 10:15:37.225"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_login}</var>
-<arg>username=doppio</arg>
-<arg>password=weBuildBestQa</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.226" level="INFO">${request_body_login} = {'username': 'doppio', 'password': 'weBuildBestQa'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.225" endtime="20260220 10:15:37.226"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${resp}</var>
-<arg>deleAssets</arg>
-<arg>/login</arg>
-<arg>json=${request_body_login}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.230" level="INFO">POST Request : url=http://localhost:8082/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '51', 'Content-Type': 'application/json'} 
- body=b'{"username": "doppio", "password": "weBuildBestQa"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.230" level="INFO">POST Response : url=http://localhost:8082/login 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":"aZ9SRGKUStuKNmaZWxuQEz9lqRIeAyWW"} 
- </msg>
-<msg timestamp="20260220 10:15:37.230" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.226" endtime="20260220 10:15:37.230"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${token}</var>
-<arg>${resp.json()['message']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.230" level="INFO">${token} = aZ9SRGKUStuKNmaZWxuQEz9lqRIeAyWW</msg>
-<status status="PASS" starttime="20260220 10:15:37.230" endtime="20260220 10:15:37.230"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_header}</var>
-<arg>token=${token}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.230" level="INFO">${request_header} = {'token': 'aZ9SRGKUStuKNmaZWxuQEz9lqRIeAyWW'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.230" endtime="20260220 10:15:37.230"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>${request_header}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.230" endtime="20260220 10:15:37.231"/>
-</kw>
-<kw name="DELETE On Session" library="RequestsLibrary">
-<var>${deleAss_resp}</var>
-<arg>deleAssets</arg>
-<arg>/assets/a033</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.233" level="INFO">DELETE Request : url=http://localhost:8082/assets/a033 
- path_url=/assets/a033 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'aZ9SRGKUStuKNmaZWxuQEz9lqRIeAyWW', 'Content-Length': '0'} 
- body=None 
- </msg>
-<msg timestamp="20260220 10:15:37.233" level="INFO">DELETE Response : url=http://localhost:8082/assets/a033 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":""} 
- </msg>
-<msg timestamp="20260220 10:15:37.233" level="INFO">${deleAss_resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.231" endtime="20260220 10:15:37.233"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${deleAss_resp.json()['status']}</arg>
-<arg>success</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.233" endtime="20260220 10:15:37.233"/>
-</kw>
-<kw name="Should Be Empty" library="BuiltIn">
-<arg>${deleAss_resp.json()['message']}</arg>
-<doc>Verifies that the given item is empty.</doc>
-<msg timestamp="20260220 10:15:37.233" level="INFO">Length is 0</msg>
-<status status="PASS" starttime="20260220 10:15:37.233" endtime="20260220 10:15:37.233"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.224" endtime="20260220 10:15:37.234"/>
-</test>
-<test id="s1-t6" name="TC-008 Verify that get asset API always require valid token (by input empty token)" line="120">
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_header}</var>
-<arg>token=</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.234" level="INFO">${request_header} = {'token': ''}</msg>
-<status status="PASS" starttime="20260220 10:15:37.234" endtime="20260220 10:15:37.234"/>
+<msg timestamp="20260227 16:08:08.655" level="INFO">${request_header} = {'token': 'PfS1hq1a7rkH7PjXrqc_fuYtFUF5TKru'}</msg>
+<status status="PASS" starttime="20260227 16:08:08.655" endtime="20260227 16:08:08.655"/>
 </kw>
 <kw name="GET On Session" library="RequestsLibrary">
 <var>${get_resp}</var>
 <arg>assetSession</arg>
 <arg>/assets</arg>
 <arg>headers=${request_header}</arg>
-<arg>expected_status=401</arg>
 <doc>Sends a GET request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.236" level="INFO">GET Request : url=http://localhost:8082/assets 
+<msg timestamp="20260227 16:08:08.667" level="INFO">GET Request : url=http://localhost:8082/assets 
  path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': ''} 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'PfS1hq1a7rkH7PjXrqc_fuYtFUF5TKru'} 
  body=None 
  </msg>
-<msg timestamp="20260220 10:15:37.236" level="INFO">GET Response : url=http://localhost:8082/assets 
- status=401, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"error","message":"you do not have access to this resource"} 
- </msg>
-<msg timestamp="20260220 10:15:37.236" level="INFO">${get_resp} = &lt;Response [401]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.234" endtime="20260220 10:15:37.236"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${get_resp.json()['status']}</arg>
-<arg>error</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.237" endtime="20260220 10:15:37.237"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${get_resp.json()['message']}</arg>
-<arg>you do not have access to this resource</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.237" endtime="20260220 10:15:37.237"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.234" endtime="20260220 10:15:37.237"/>
-</test>
-<test id="s1-t7" name="TC-009 Verify that create asset API can work correctly (สร้าง asset ใหม่ โดยห้ามซ้ำของเดิม หากเจอซ้ำให้หยุดทำงาน)" line="134">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>mainSession</arg>
-<arg>http://localhost:8082</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20260220 10:15:37.239" level="INFO">Creating Session using : alias=mainSession, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<status status="PASS" starttime="20260220 10:15:37.238" endtime="20260220 10:15:37.239"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_login}</var>
-<arg>username=doppio</arg>
-<arg>password=weBuildBestQa</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.239" level="INFO">${request_body_login} = {'username': 'doppio', 'password': 'weBuildBestQa'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.239" endtime="20260220 10:15:37.239"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${resp}</var>
-<arg>mainSession</arg>
-<arg>/login</arg>
-<arg>json=${request_body_login}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.244" level="INFO">POST Request : url=http://localhost:8082/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '51', 'Content-Type': 'application/json'} 
- body=b'{"username": "doppio", "password": "weBuildBestQa"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.244" level="INFO">POST Response : url=http://localhost:8082/login 
+<msg timestamp="20260227 16:08:08.667" level="INFO">GET Response : url=http://localhost:8082/assets 
  status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":"LQr4HCYB7ElZom4Ym4d7n1WoDg1LJHdK"} 
+ headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 27 Feb 2026 09:08:08 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
+ body=[{"assetId":"a001","assetName":"Macbook Pro","assetType":1,"inUse":true},{"assetId":"a002","assetName":"Lenovo B112","assetType":2,"inUse":true},{"assetId":"a003","assetName":"Apple Iphone 11","assetType":3,"inUse":true},{"assetId":"a004","assetName":"Macbook Air","assetType":1,"inUse":true},{"assetId":"a005","assetName":"Xiaomi Mi6","assetType":4,"inUse":true}] 
  </msg>
-<msg timestamp="20260220 10:15:37.245" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.239" endtime="20260220 10:15:37.245"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${token}</var>
-<arg>${resp.json()['message']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.245" level="INFO">${token} = LQr4HCYB7ElZom4Ym4d7n1WoDg1LJHdK</msg>
-<status status="PASS" starttime="20260220 10:15:37.245" endtime="20260220 10:15:37.245"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_header}</var>
-<arg>token=${token}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.245" level="INFO">${request_header} = {'token': 'LQr4HCYB7ElZom4Ym4d7n1WoDg1LJHdK'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.245" endtime="20260220 10:15:37.245"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>${request_header}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.245" endtime="20260220 10:15:37.245"/>
-</kw>
-<kw name="GET On Session" library="RequestsLibrary">
-<var>${get_resp}</var>
-<arg>mainSession</arg>
-<arg>/assets</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a GET request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.249" level="INFO">GET Request : url=http://localhost:8082/assets 
- path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'LQr4HCYB7ElZom4Ym4d7n1WoDg1LJHdK'} 
- body=None 
- </msg>
-<msg timestamp="20260220 10:15:37.249" level="INFO">GET Response : url=http://localhost:8082/assets 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body=[{"assetId":"a001","assetName":"Macpro test","assetType":1,"inUse":true},{"assetId":"a003","assetName":"Apple Iphone 11","assetType":3,"inUse":true},{"assetId":"a004","assetName":"Macbook Air","assetType":1,"inUse":true},{"assetId":"a005","assetName":"Xiaomi Mi6","assetType":4,"inUse":true},{"assetId":"a009b","assetName":"Macpro m009","assetType":1,"inUse":true},{"assetId":"a034","assetName":"Huawai Model-34","assetType":5,"inUse":true},{"assetId":"a006","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a035","assetName":"Huawai Model-35","assetType":5,"inUse":true},{"assetId":"a036","assetName":"Huawai Model-36","assetType":5,"inUse":true},{"assetId":"a007","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a037","assetName":"Huawai Model-37","assetType":5,"inUse":true},{"assetId":"a008","assetName":"Macpro m6","assetType":1,"inUse":true}] 
- </msg>
-<msg timestamp="20260220 10:15:37.249" level="INFO">${get_resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.245" endtime="20260220 10:15:37.249"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${existing_ids}</var>
-<arg>[a['assetId'] for a in $get_resp.json()]</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20260220 10:15:37.249" level="INFO">${existing_ids} = ['a001', 'a003', 'a004', 'a005', 'a009b', 'a034', 'a006', 'a035', 'a036', 'a007', 'a037', 'a008']</msg>
-<status status="PASS" starttime="20260220 10:15:37.249" endtime="20260220 10:15:37.249"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_create}</var>
-<arg>assetId=a033</arg>
-<arg>assetName=Macpro m009</arg>
-<arg>assetType=1</arg>
-<arg>inUse=true</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.249" level="INFO">${request_body_create} = {'assetId': 'a033', 'assetName': 'Macpro m009', 'assetType': '1', 'inUse': 'true'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.249" endtime="20260220 10:15:37.249"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${new_id}</var>
-<arg>${request_body_create['assetId']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.250" level="INFO">${new_id} = a033</msg>
-<status status="PASS" starttime="20260220 10:15:37.249" endtime="20260220 10:15:37.250"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>===== Duplicate Check =====</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.250" endtime="20260220 10:15:37.250"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>existing_ids = ${existing_ids}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.250" endtime="20260220 10:15:37.250"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>new_id = ${new_id}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.250" endtime="20260220 10:15:37.250"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${is_dup}</var>
-<arg>$new_id in $existing_ids</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20260220 10:15:37.250" level="INFO">${is_dup} = False</msg>
-<status status="PASS" starttime="20260220 10:15:37.250" endtime="20260220 10:15:37.250"/>
-</kw>
-<if>
-<branch type="IF" condition="${is_dup}">
-<kw name="Pass Execution" library="BuiltIn">
-<arg>Checking result = ❌ System found duplicate asset_id → skip create</arg>
-<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
-<status status="NOT RUN" starttime="20260220 10:15:37.250" endtime="20260220 10:15:37.251"/>
-</kw>
-<status status="NOT RUN" starttime="20260220 10:15:37.250" endtime="20260220 10:15:37.251"/>
-</branch>
-<branch type="ELSE">
-<kw name="Log To Console" library="BuiltIn">
-<arg>Checking result = ✅ System not found duplicate asset_id → creating new asset soon.</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.251" endtime="20260220 10:15:37.251"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${create_resp}</var>
-<arg>mainSession</arg>
-<arg>/assets</arg>
-<arg>json=${request_body_create}</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.253" level="INFO">POST Request : url=http://localhost:8082/assets 
- path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'LQr4HCYB7ElZom4Ym4d7n1WoDg1LJHdK', 'Content-Length': '82', 'Content-Type': 'application/json'} 
- body=b'{"assetId": "a033", "assetName": "Macpro m009", "assetType": "1", "inUse": "true"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.253" level="INFO">POST Response : url=http://localhost:8082/assets 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":""} 
- </msg>
-<msg timestamp="20260220 10:15:37.254" level="INFO">${create_resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.251" endtime="20260220 10:15:37.254"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${create_resp.json()['status']}</arg>
-<arg>success</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.254" endtime="20260220 10:15:37.254"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.251" endtime="20260220 10:15:37.254"/>
-</branch>
-<status status="PASS" starttime="20260220 10:15:37.250" endtime="20260220 10:15:37.254"/>
-</if>
-<status status="PASS" starttime="20260220 10:15:37.237" endtime="20260220 10:15:37.254"/>
-</test>
-<test id="s1-t8" name="TC-0010 Verify that create asset API can work correctly (สร้าง asset ใหม่ โดยห้ามซ้ำของเดิม หากเจอซ้ำให้ generate asset info ใหม่เอง)" line="180">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>mainSession</arg>
-<arg>http://localhost:8082</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20260220 10:15:37.255" level="INFO">Creating Session using : alias=mainSession, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<status status="PASS" starttime="20260220 10:15:37.255" endtime="20260220 10:15:37.255"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_login}</var>
-<arg>username=doppio</arg>
-<arg>password=weBuildBestQa</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.255" level="INFO">${request_body_login} = {'username': 'doppio', 'password': 'weBuildBestQa'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.255" endtime="20260220 10:15:37.255"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${resp}</var>
-<arg>mainSession</arg>
-<arg>/login</arg>
-<arg>json=${request_body_login}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.259" level="INFO">POST Request : url=http://localhost:8082/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '51', 'Content-Type': 'application/json'} 
- body=b'{"username": "doppio", "password": "weBuildBestQa"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.259" level="INFO">POST Response : url=http://localhost:8082/login 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":"EeuWmKANeUL67gw6mAu4gvggvCUCg5p6"} 
- </msg>
-<msg timestamp="20260220 10:15:37.259" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.255" endtime="20260220 10:15:37.259"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${token}</var>
-<arg>${resp.json()['message']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.260" level="INFO">${token} = EeuWmKANeUL67gw6mAu4gvggvCUCg5p6</msg>
-<status status="PASS" starttime="20260220 10:15:37.259" endtime="20260220 10:15:37.260"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_header}</var>
-<arg>token=${token}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.260" level="INFO">${request_header} = {'token': 'EeuWmKANeUL67gw6mAu4gvggvCUCg5p6'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.260" endtime="20260220 10:15:37.260"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>${request_header}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.260" endtime="20260220 10:15:37.260"/>
-</kw>
-<kw name="GET On Session" library="RequestsLibrary">
-<var>${get_resp}</var>
-<arg>mainSession</arg>
-<arg>/assets</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a GET request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.262" level="INFO">GET Request : url=http://localhost:8082/assets 
- path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'EeuWmKANeUL67gw6mAu4gvggvCUCg5p6'} 
- body=None 
- </msg>
-<msg timestamp="20260220 10:15:37.262" level="INFO">GET Response : url=http://localhost:8082/assets 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body=[{"assetId":"a001","assetName":"Macpro test","assetType":1,"inUse":true},{"assetId":"a003","assetName":"Apple Iphone 11","assetType":3,"inUse":true},{"assetId":"a004","assetName":"Macbook Air","assetType":1,"inUse":true},{"assetId":"a005","assetName":"Xiaomi Mi6","assetType":4,"inUse":true},{"assetId":"a009b","assetName":"Macpro m009","assetType":1,"inUse":true},{"assetId":"a034","assetName":"Huawai Model-34","assetType":5,"inUse":true},{"assetId":"a006","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a035","assetName":"Huawai Model-35","assetType":5,"inUse":true},{"assetId":"a036","assetName":"Huawai Model-36","assetType":5,"inUse":true},{"assetId":"a007","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a037","assetName":"Huawai Model-37","assetType":5,"inUse":true},{"assetId":"a008","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a033","assetName":"Macpro m009","assetType":1,"inUse":true}] 
- </msg>
-<msg timestamp="20260220 10:15:37.262" level="INFO">${get_resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.260" endtime="20260220 10:15:37.262"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${existing_ids}</var>
-<arg>[a['assetId'] for a in $get_resp.json()]</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20260220 10:15:37.262" level="INFO">${existing_ids} = ['a001', 'a003', 'a004', 'a005', 'a009b', 'a034', 'a006', 'a035', 'a036', 'a007', 'a037', 'a008', 'a033']</msg>
-<status status="PASS" starttime="20260220 10:15:37.262" endtime="20260220 10:15:37.262"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_create}</var>
-<arg>assetId=a036</arg>
-<arg>assetName=Macpro m009</arg>
-<arg>assetType=1</arg>
-<arg>inUse=true</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.263" level="INFO">${request_body_create} = {'assetId': 'a036', 'assetName': 'Macpro m009', 'assetType': '1', 'inUse': 'true'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.263" endtime="20260220 10:15:37.263"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${new_id}</var>
-<arg>${request_body_create['assetId']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.263" level="INFO">${new_id} = a036</msg>
-<status status="PASS" starttime="20260220 10:15:37.263" endtime="20260220 10:15:37.263"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>===== Duplicate Check =====</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.263" endtime="20260220 10:15:37.263"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>existing_ids = ${existing_ids}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.263" endtime="20260220 10:15:37.263"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>new_id = ${new_id}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.263" endtime="20260220 10:15:37.263"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${is_dup}</var>
-<arg>$new_id in $existing_ids</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20260220 10:15:37.264" level="INFO">${is_dup} = True</msg>
-<status status="PASS" starttime="20260220 10:15:37.263" endtime="20260220 10:15:37.264"/>
-</kw>
-<if>
-<branch type="IF" condition="${is_dup}">
-<kw name="Log To Console" library="BuiltIn">
-<arg>Checking result = ❗ System found duplicate asset_id (${new_id}) → auto-generate a new one</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.264" endtime="20260220 10:15:37.264"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${max_no}</var>
-<arg>max([int(x[1:]) for x in $existing_ids if x.startswith('a') and x[1:].isdigit()])</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20260220 10:15:37.264" level="INFO">${max_no} = 37</msg>
-<status status="PASS" starttime="20260220 10:15:37.264" endtime="20260220 10:15:37.264"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${next_no}</var>
-<arg>${max_no} + 1</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20260220 10:15:37.264" level="INFO">${next_no} = 38</msg>
-<status status="PASS" starttime="20260220 10:15:37.264" endtime="20260220 10:15:37.264"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${new_assetId}</var>
-<arg>f"a{${next_no}:03d}"</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20260220 10:15:37.264" level="INFO">${new_assetId} = a038</msg>
-<status status="PASS" starttime="20260220 10:15:37.264" endtime="20260220 10:15:37.264"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${new_assetName}</var>
-<arg>Huawai Model-${next_no}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.264" level="INFO">${new_assetName} = Huawai Model-38</msg>
-<status status="PASS" starttime="20260220 10:15:37.264" endtime="20260220 10:15:37.264"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>&amp;{auto_body}</var>
-<arg>assetId=${new_assetId}</arg>
-<arg>assetName=${new_assetName}</arg>
-<arg>assetType=5</arg>
-<arg>inUse=${True}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.264" level="INFO">&amp;{auto_body} = { assetId=a038 | assetName=Huawai Model-38 | assetType=5 | inUse=True }</msg>
-<status status="PASS" starttime="20260220 10:15:37.264" endtime="20260220 10:15:37.264"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>✅ Auto Create Body = ${auto_body}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.264" endtime="20260220 10:15:37.265"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${create_resp}</var>
-<arg>mainSession</arg>
-<arg>/assets</arg>
-<arg>json=&amp;{auto_body}</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.268" level="INFO">POST Request : url=http://localhost:8082/assets 
- path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'EeuWmKANeUL67gw6mAu4gvggvCUCg5p6', 'Content-Length': '84', 'Content-Type': 'application/json'} 
- body=b'{"assetId": "a038", "assetName": "Huawai Model-38", "assetType": "5", "inUse": true}' 
- </msg>
-<msg timestamp="20260220 10:15:37.268" level="INFO">POST Response : url=http://localhost:8082/assets 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":""} 
- </msg>
-<msg timestamp="20260220 10:15:37.268" level="INFO">${create_resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.265" endtime="20260220 10:15:37.268"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${create_resp.json()['status']}</arg>
-<arg>success</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.268" endtime="20260220 10:15:37.269"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>🎉 Created asset info = ${auto_body}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.269" endtime="20260220 10:15:37.269"/>
-</kw>
-<kw name="GET On Session" library="RequestsLibrary">
-<var>${final_get}</var>
-<arg>mainSession</arg>
-<arg>/assets</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a GET request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.271" level="INFO">GET Request : url=http://localhost:8082/assets 
- path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'EeuWmKANeUL67gw6mAu4gvggvCUCg5p6'} 
- body=None 
- </msg>
-<msg timestamp="20260220 10:15:37.271" level="INFO">GET Response : url=http://localhost:8082/assets 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body=[{"assetId":"a001","assetName":"Macpro test","assetType":1,"inUse":true},{"assetId":"a003","assetName":"Apple Iphone 11","assetType":3,"inUse":true},{"assetId":"a004","assetName":"Macbook Air","assetType":1,"inUse":true},{"assetId":"a005","assetName":"Xiaomi Mi6","assetType":4,"inUse":true},{"assetId":"a009b","assetName":"Macpro m009","assetType":1,"inUse":true},{"assetId":"a034","assetName":"Huawai Model-34","assetType":5,"inUse":true},{"assetId":"a006","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a035","assetName":"Huawai Model-35","assetType":5,"inUse":true},{"assetId":"a036","assetName":"Huawai Model-36","assetType":5,"inUse":true},{"assetId":"a007","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a037","assetName":"Huawai Model-37","assetType":5,"inUse":true},{"assetId":"a008","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a033","assetName":"Macpro m009","assetType":1,"inUse":true},{"assetId":"a038","assetName":"Huawai Model-38","assetType":5,"inUse":true}] 
- </msg>
-<msg timestamp="20260220 10:15:37.271" level="INFO">${final_get} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.269" endtime="20260220 10:15:37.271"/>
+<msg timestamp="20260227 16:08:08.667" level="INFO">${get_resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20260227 16:08:08.655" endtime="20260227 16:08:08.667"/>
 </kw>
 <kw name="Get Length" library="BuiltIn">
-<var>${final_count}</var>
-<arg>${final_get.json()}</arg>
+<var>${count}</var>
+<arg>${get_resp.json()}</arg>
 <doc>Returns and logs the length of the given item as an integer.</doc>
-<msg timestamp="20260220 10:15:37.272" level="INFO">Length is 14</msg>
-<msg timestamp="20260220 10:15:37.272" level="INFO">${final_count} = 14</msg>
-<status status="PASS" starttime="20260220 10:15:37.271" endtime="20260220 10:15:37.272"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${assets}</var>
-<arg>${final_get.json()}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.272" level="INFO">${assets} = [{'assetId': 'a001', 'assetName': 'Macpro test', 'assetType': 1, 'inUse': True}, {'assetId': 'a003', 'assetName': 'Apple Iphone 11', 'assetType': 3, 'inUse': True}, {'assetId': 'a004', 'assetName': 'M...</msg>
-<status status="PASS" starttime="20260220 10:15:37.272" endtime="20260220 10:15:37.272"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>===== Current Asset List (count=${final_count}) =====</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.272" endtime="20260220 10:15:37.272"/>
-</kw>
-<for flavor="IN">
-<var>${a}</var>
-<value>@{assets}</value>
-<iter>
-<var name="${a}">{'assetId': 'a001', 'assetName': 'Macpro test', 'assetType': 1, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.273" endtime="20260220 10:15:37.274"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.273" endtime="20260220 10:15:37.274"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a003', 'assetName': 'Apple Iphone 11', 'assetType': 3, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.274" endtime="20260220 10:15:37.275"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.274" endtime="20260220 10:15:37.275"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a004', 'assetName': 'Macbook Air', 'assetType': 1, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.275" endtime="20260220 10:15:37.276"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.275" endtime="20260220 10:15:37.276"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a005', 'assetName': 'Xiaomi Mi6', 'assetType': 4, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.276" endtime="20260220 10:15:37.277"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.276" endtime="20260220 10:15:37.277"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a009b', 'assetName': 'Macpro m009', 'assetType': 1, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.277" endtime="20260220 10:15:37.278"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.277" endtime="20260220 10:15:37.278"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a034', 'assetName': 'Huawai Model-34', 'assetType': 5, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.278" endtime="20260220 10:15:37.279"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.278" endtime="20260220 10:15:37.279"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a006', 'assetName': 'Macpro m6', 'assetType': 1, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.279" endtime="20260220 10:15:37.280"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.279" endtime="20260220 10:15:37.280"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a035', 'assetName': 'Huawai Model-35', 'assetType': 5, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.280" endtime="20260220 10:15:37.281"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.280" endtime="20260220 10:15:37.281"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a036', 'assetName': 'Huawai Model-36', 'assetType': 5, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.281" endtime="20260220 10:15:37.282"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.281" endtime="20260220 10:15:37.282"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a007', 'assetName': 'Macpro m6', 'assetType': 1, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.282" endtime="20260220 10:15:37.282"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.282" endtime="20260220 10:15:37.282"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a037', 'assetName': 'Huawai Model-37', 'assetType': 5, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.282" endtime="20260220 10:15:37.283"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.282" endtime="20260220 10:15:37.283"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a008', 'assetName': 'Macpro m6', 'assetType': 1, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.283" endtime="20260220 10:15:37.284"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.283" endtime="20260220 10:15:37.284"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a033', 'assetName': 'Macpro m009', 'assetType': 1, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.284" endtime="20260220 10:15:37.285"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.284" endtime="20260220 10:15:37.285"/>
-</iter>
-<iter>
-<var name="${a}">{'assetId': 'a038', 'assetName': 'Huawai Model-38', 'assetType': 5, 'inUse': True}</var>
-<kw name="Log To Console" library="BuiltIn">
-<arg>- ${a['assetId']} | ${a['assetName']} | ${a['assetType']} | ${a['inUse']}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.285" endtime="20260220 10:15:37.286"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.285" endtime="20260220 10:15:37.286"/>
-</iter>
-<status status="PASS" starttime="20260220 10:15:37.272" endtime="20260220 10:15:37.286"/>
-</for>
-<kw name="Pass Execution" library="BuiltIn">
-<arg>✅ Duplicate handled: auto-created ${new_assetId} and printed current list</arg>
-<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
-<msg timestamp="20260220 10:15:37.286" level="INFO">Execution passed with message:
-✅ Duplicate handled: auto-created a038 and printed current list</msg>
-<status status="PASS" starttime="20260220 10:15:37.286" endtime="20260220 10:15:37.286"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.264" endtime="20260220 10:15:37.286"/>
-</branch>
-<branch type="ELSE">
-<kw name="Log To Console" library="BuiltIn">
-<arg>Checking result = ✅ System not found duplicate asset_id → creating new asset soon.</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="NOT RUN" starttime="20260220 10:15:37.286" endtime="20260220 10:15:37.286"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${create_resp}</var>
-<arg>mainSession</arg>
-<arg>/assets</arg>
-<arg>json=${request_body_create}</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="NOT RUN" starttime="20260220 10:15:37.286" endtime="20260220 10:15:37.286"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${create_resp.json()['status']}</arg>
-<arg>success</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="NOT RUN" starttime="20260220 10:15:37.286" endtime="20260220 10:15:37.286"/>
-</kw>
-<status status="NOT RUN" starttime="20260220 10:15:37.286" endtime="20260220 10:15:37.286"/>
-</branch>
-<status status="PASS" starttime="20260220 10:15:37.264" endtime="20260220 10:15:37.286"/>
-</if>
-<status status="PASS" starttime="20260220 10:15:37.254" endtime="20260220 10:15:37.286">✅ Duplicate handled: auto-created a038 and printed current list</status>
-</test>
-<test id="s1-t9" name="TC-011 Verify that delete asset API can work correctly (ลบเเล้วกลับไปตรวจค่าเส้น get ต้องไม่เจอ)" line="274">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>deleAssets</arg>
-<arg>http://localhost:8082</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20260220 10:15:37.287" level="INFO">Creating Session using : alias=deleAssets, url=http://localhost:8082, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<status status="PASS" starttime="20260220 10:15:37.287" endtime="20260220 10:15:37.287"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_login}</var>
-<arg>username=doppio</arg>
-<arg>password=weBuildBestQa</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.288" level="INFO">${request_body_login} = {'username': 'doppio', 'password': 'weBuildBestQa'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.288" endtime="20260220 10:15:37.288"/>
-</kw>
-<kw name="POST On Session" library="RequestsLibrary">
-<var>${resp}</var>
-<arg>deleAssets</arg>
-<arg>/login</arg>
-<arg>json=${request_body_login}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.292" level="INFO">POST Request : url=http://localhost:8082/login 
- path_url=/login 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '51', 'Content-Type': 'application/json'} 
- body=b'{"username": "doppio", "password": "weBuildBestQa"}' 
- </msg>
-<msg timestamp="20260220 10:15:37.292" level="INFO">POST Response : url=http://localhost:8082/login 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":"KMFFBUfF4_vA8yiv50nZhdVQZ72QMgvp"} 
- </msg>
-<msg timestamp="20260220 10:15:37.292" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.288" endtime="20260220 10:15:37.292"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${token}</var>
-<arg>${resp.json()['message']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.292" level="INFO">${token} = KMFFBUfF4_vA8yiv50nZhdVQZ72QMgvp</msg>
-<status status="PASS" starttime="20260220 10:15:37.292" endtime="20260220 10:15:37.292"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_header}</var>
-<arg>token=${token}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.292" level="INFO">${request_header} = {'token': 'KMFFBUfF4_vA8yiv50nZhdVQZ72QMgvp'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.292" endtime="20260220 10:15:37.292"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>${request_header}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.292" endtime="20260220 10:15:37.292"/>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<var>${request_body_dele}</var>
-<arg>assetId=a003</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<msg timestamp="20260220 10:15:37.293" level="INFO">${request_body_dele} = {'assetId': 'a003'}</msg>
-<status status="PASS" starttime="20260220 10:15:37.292" endtime="20260220 10:15:37.293"/>
-</kw>
-<kw name="Set Variable" library="BuiltIn">
-<var>${dele_id}</var>
-<arg>${request_body_dele['assetId']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<msg timestamp="20260220 10:15:37.293" level="INFO">${dele_id} = a003</msg>
-<status status="PASS" starttime="20260220 10:15:37.293" endtime="20260220 10:15:37.293"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>asset_id plan to deleting = ${dele_id}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.293" endtime="20260220 10:15:37.293"/>
-</kw>
-<kw name="DELETE On Session" library="RequestsLibrary">
-<var>${deleAss_resp}</var>
-<arg>deleAssets</arg>
-<arg>/assets/${dele_id}</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.295" level="INFO">DELETE Request : url=http://localhost:8082/assets/a003 
- path_url=/assets/a003 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'KMFFBUfF4_vA8yiv50nZhdVQZ72QMgvp', 'Content-Length': '0'} 
- body=None 
- </msg>
-<msg timestamp="20260220 10:15:37.295" level="INFO">DELETE Response : url=http://localhost:8082/assets/a003 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body={"status":"success","message":""} 
- </msg>
-<msg timestamp="20260220 10:15:37.295" level="INFO">${deleAss_resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.293" endtime="20260220 10:15:37.295"/>
-</kw>
-<kw name="Should Be Equal" library="BuiltIn">
-<arg>${deleAss_resp.json()['status']}</arg>
-<arg>success</arg>
-<doc>Fails if the given objects are unequal.</doc>
-<status status="PASS" starttime="20260220 10:15:37.295" endtime="20260220 10:15:37.296"/>
-</kw>
-<kw name="Should Be Empty" library="BuiltIn">
-<arg>${deleAss_resp.json()['message']}</arg>
-<doc>Verifies that the given item is empty.</doc>
-<msg timestamp="20260220 10:15:37.296" level="INFO">Length is 0</msg>
-<status status="PASS" starttime="20260220 10:15:37.296" endtime="20260220 10:15:37.296"/>
-</kw>
-<kw name="GET On Session" library="RequestsLibrary">
-<var>${get_resp}</var>
-<arg>deleAssets</arg>
-<arg>/assets</arg>
-<arg>headers=${request_header}</arg>
-<arg>expected_status=200</arg>
-<doc>Sends a GET request on a previously created HTTP Session.</doc>
-<msg timestamp="20260220 10:15:37.299" level="INFO">GET Request : url=http://localhost:8082/assets 
- path_url=/assets 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate, zstd', 'Accept': '*/*', 'Connection': 'keep-alive', 'token': 'KMFFBUfF4_vA8yiv50nZhdVQZ72QMgvp'} 
- body=None 
- </msg>
-<msg timestamp="20260220 10:15:37.299" level="INFO">GET Response : url=http://localhost:8082/assets 
- status=200, reason= 
- headers={'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Date': 'Fri, 20 Feb 2026 03:15:37 GMT', 'Keep-Alive': 'timeout=60', 'Connection': 'keep-alive'} 
- body=[{"assetId":"a001","assetName":"Macpro test","assetType":1,"inUse":true},{"assetId":"a004","assetName":"Macbook Air","assetType":1,"inUse":true},{"assetId":"a005","assetName":"Xiaomi Mi6","assetType":4,"inUse":true},{"assetId":"a009b","assetName":"Macpro m009","assetType":1,"inUse":true},{"assetId":"a034","assetName":"Huawai Model-34","assetType":5,"inUse":true},{"assetId":"a006","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a035","assetName":"Huawai Model-35","assetType":5,"inUse":true},{"assetId":"a036","assetName":"Huawai Model-36","assetType":5,"inUse":true},{"assetId":"a007","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a037","assetName":"Huawai Model-37","assetType":5,"inUse":true},{"assetId":"a008","assetName":"Macpro m6","assetType":1,"inUse":true},{"assetId":"a033","assetName":"Macpro m009","assetType":1,"inUse":true},{"assetId":"a038","assetName":"Huawai Model-38","assetType":5,"inUse":true}] 
- </msg>
-<msg timestamp="20260220 10:15:37.299" level="INFO">${get_resp} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20260220 10:15:37.296" endtime="20260220 10:15:37.299"/>
+<msg timestamp="20260227 16:08:08.667" level="INFO">Length is 5</msg>
+<msg timestamp="20260227 16:08:08.667" level="INFO">${count} = 5</msg>
+<status status="PASS" starttime="20260227 16:08:08.667" endtime="20260227 16:08:08.667"/>
 </kw>
 <kw name="Evaluate" library="BuiltIn">
-<var>${existing_ids}</var>
-<arg>[a['assetId'] for a in $get_resp.json()]</arg>
+<var>${morethanone}</var>
+<arg>${count}&gt;0</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20260220 10:15:37.299" level="INFO">${existing_ids} = ['a001', 'a004', 'a005', 'a009b', 'a034', 'a006', 'a035', 'a036', 'a007', 'a037', 'a008', 'a033', 'a038']</msg>
-<status status="PASS" starttime="20260220 10:15:37.299" endtime="20260220 10:15:37.299"/>
+<msg timestamp="20260227 16:08:08.667" level="INFO">${morethanone} = True</msg>
+<status status="PASS" starttime="20260227 16:08:08.667" endtime="20260227 16:08:08.667"/>
 </kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>===== Deleted Checklist =====</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.299" endtime="20260220 10:15:37.299"/>
+<kw name="Should Be True" library="BuiltIn">
+<arg>${morethanone}</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" starttime="20260227 16:08:08.668" endtime="20260227 16:08:08.668"/>
 </kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>existing_ids = ${existing_ids}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.299" endtime="20260220 10:15:37.299"/>
-</kw>
-<kw name="Log To Console" library="BuiltIn">
-<arg>already deleted_id = ${dele_id}</arg>
-<doc>Logs the given message to the console.</doc>
-<status status="PASS" starttime="20260220 10:15:37.299" endtime="20260220 10:15:37.299"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${is_dele}</var>
-<arg>$dele_id in $existing_ids</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20260220 10:15:37.300" level="INFO">${is_dele} = False</msg>
-<status status="PASS" starttime="20260220 10:15:37.299" endtime="20260220 10:15:37.300"/>
-</kw>
-<if>
-<branch type="IF" condition="${is_dele}">
-<kw name="Fail" library="BuiltIn">
-<arg>Checking result = ❌ ระบบยังเจอ asset_id เพราะไม่ถูกลบจริง</arg>
-<doc>Fails the test with the given message and optionally alters its tags.</doc>
-<status status="NOT RUN" starttime="20260220 10:15:37.300" endtime="20260220 10:15:37.300"/>
-</kw>
-<status status="NOT RUN" starttime="20260220 10:15:37.300" endtime="20260220 10:15:37.300"/>
-</branch>
-<branch type="ELSE">
-<kw name="Pass Execution" library="BuiltIn">
-<arg>Checking result = ✅ ระบบไม่พบ asset_id ที่ลบเเล้ว เก่งมาก</arg>
-<doc>Skips rest of the current test, setup, or teardown with PASS status.</doc>
-<msg timestamp="20260220 10:15:37.300" level="INFO">Execution passed with message:
-Checking result = ✅ ระบบไม่พบ asset_id ที่ลบเเล้ว เก่งมาก</msg>
-<status status="PASS" starttime="20260220 10:15:37.300" endtime="20260220 10:15:37.300"/>
-</kw>
-<status status="PASS" starttime="20260220 10:15:37.300" endtime="20260220 10:15:37.300"/>
-</branch>
-<status status="PASS" starttime="20260220 10:15:37.300" endtime="20260220 10:15:37.300"/>
-</if>
-<status status="PASS" starttime="20260220 10:15:37.287" endtime="20260220 10:15:37.300">Checking result = ✅ ระบบไม่พบ asset_id ที่ลบเเล้ว เก่งมาก</status>
+<status status="PASS" starttime="20260227 16:08:08.651" endtime="20260227 16:08:08.668"/>
 </test>
-<status status="PASS" starttime="20260220 10:15:36.985" endtime="20260220 10:15:37.300"/>
+<status status="PASS" starttime="20260227 16:08:07.136" endtime="20260227 16:08:08.668"/>
 </suite>
 <statistics>
 <total>
-<stat pass="9" fail="0" skip="0">All Tests</stat>
+<stat pass="3" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="9" fail="0" skip="0" id="s1" name="Assignment">Assignment</stat>
+<stat pass="3" fail="0" skip="0" id="s1" name="Ep3">Ep3</stat>
 </suite>
 </statistics>
 <errors>
